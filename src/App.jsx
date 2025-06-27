@@ -31,6 +31,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 
 // Update API base URL to deployed backend
+// Use local mock data while backend is being fixed
 const API_BASE_URL = '/api';
 
 // Utility function for API calls
