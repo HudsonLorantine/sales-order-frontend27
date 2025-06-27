@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "route": "/api/*",
-      "rewrite": "https://sales-backend-new-7821.azurewebsites.net/api/*"
-    }
-  ]
-}

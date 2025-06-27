@@ -31,8 +31,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 
 // Update API base URL to deployed backend
-// Use local mock data while backend is being fixed
-const API_BASE_URL = '/api';
+const API_BASE_URL = 'https://sales-order-backend.blueocean-64f72639.eastus.azurecontainerapps.io/api';
 
 // Utility function for API calls
 const apiCall = async (endpoint, options = {}) => {
