@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "company_name": "Acme Corporation",
+    "contact_person": "John Doe",
+    "email": "john@acme.com",
+    "phone": "555-1234",
+    "billing_address": "123 Main St, Anytown, USA",
+    "created_at": "2025-06-20T08:00:00",
+    "updated_at": "2025-06-20T08:00:00"
+  },
+  {
+    "id": 2,
+    "company_name": "Globex Industries",
+    "contact_person": "Jane Smith",
+    "email": "jane@globex.com",
+    "phone": "555-5678",
+    "billing_address": "456 Oak Ave, Somewhere, USA",
+    "created_at": "2025-06-20T09:30:00",
+    "updated_at": "2025-06-20T09:30:00"
+  },
+  {
+    "id": 3,
+    "company_name": "Initech LLC",
+    "contact_person": "Michael Bolton",
+    "email": "michael@initech.com",
+    "phone": "555-9876",
+    "billing_address": "789 Pine St, Elsewhere, USA",
+    "created_at": "2025-06-21T10:45:00",
+    "updated_at": "2025-06-21T10:45:00"
+  },
+  {
+    "id": 4,
+    "company_name": "Wayne Enterprises",
+    "contact_person": "Bruce Wayne",
+    "email": "bruce@wayneenterprises.com",
+    "phone": "555-0001",
+    "billing_address": "1007 Mountain Drive, Gotham City",
+    "created_at": "2025-06-25T16:20:00",
+    "updated_at": "2025-06-25T16:20:00"
+  }
+]
