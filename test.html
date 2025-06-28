@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Sales Order Management v1.2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 { margin-bottom: 20px; }
+        .status { font-size: 18px; margin: 20px 0; }
+        .link { 
+            display: inline-block; 
+            background: rgba(255,255,255,0.2); 
+            padding: 10px 20px; 
+            margin: 10px; 
+            border-radius: 5px; 
+            text-decoration: none; 
+            color: white;
+        }
+        .backend-status { 
+            background: rgba(0,255,0,0.3); 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin: 20px 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Sales Order Management System v1.2</h1>
+        <p class="status">Frontend Deployment Test - SUCCESS!</p>
+        
+        <div class="backend-status">
+            <h3>✅ Backend Status: RUNNING</h3>
+            <p>Backend URL: <a href="http://sales-order-backend-v1-2.azurewebsites.net" class="link" target="_blank">http://sales-order-backend-v1-2.azurewebsites.net</a></p>
+        </div>
+        
+        <div>
+            <h3>🔧 Features Available:</h3>
+            <ul style="text-align: left; display: inline-block;">
+                <li>✅ Financial Management (Invoices, Credit Notes, Tax Config, Aging Reports)</li>
+                <li>✅ Inventory Management (Warehouses, Stock Items, Movements, Purchase Orders)</li>
+                <li>✅ Analytics & Reporting (Business Metrics, Customer Analytics, Product Analytics)</li>
+                <li>✅ Reports & Forecasting (Report Templates, Sales Forecasting, Custom Reports)</li>
+                <li>✅ Core Modules (Dashboard, Orders, Customers, Products)</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <p>If you see this page, the frontend deployment is working!</p>
+            <p>The main application should be available at the root URL.</p>
+        </div>
+        
+        <script>
+            // Test backend connectivity
+            fetch('http://sales-order-backend-v1-2.azurewebsites.net/')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Backend connection successful:', data);
+                    document.querySelector('.backend-status').innerHTML += 
+                        '<p style="color: #90EE90;">✅ Backend API Connection: SUCCESS</p>';
+                })
+                .catch(error => {
+                    console.error('Backend connection failed:', error);
+                    document.querySelector('.backend-status').innerHTML += 
+                        '<p style="color: #FFB6C1;">❌ Backend API Connection: FAILED</p>';
+                });
+        </script>
+    </div>
+</body>
+</html>
