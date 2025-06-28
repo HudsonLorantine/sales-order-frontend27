@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Sales Order Management v1.2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .loading { background-color: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Frontend Debug - Sales Order Management v1.2</h1>
+    
+    <div id="status" class="test-result loading">
+        ⏳ Running diagnostics...
+    </div>
+    
+    <div class="test-result info">
+        <h3>📍 Current Information:</h3>
+        <ul>
+            <li><strong>Frontend URL:</strong> <span id="current-url"></span></li>
+            <li><strong>Backend URL:</strong> http://sales-order-backend-v1-2.azurewebsites.net</li>
+            <li><strong>User Agent:</strong> <span id="user-agent"></span></li>
+            <li><strong>Timestamp:</strong> <span id="timestamp"></span></li>
+        </ul>
+    </div>
+
+    <div id="tests-container">
+        <h3>🧪 Test Results:</h3>
+        <div id="test-results"></div>
+    </div>
+
+    <div id="console-log">
+        <h3>📜 Console Log:</h3>
+        <div id="log-output" style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // Override console.log to capture logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logOutput = document.getElementById('log-output');
+        
+        function addLog(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.style.marginBottom = '2px';
+            logEntry.style.color = type === 'error' ? 'red' : 'black';
+            logEntry.innerHTML = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            logOutput.appendChild(logEntry);
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+
+        // Fill in current information
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('user-agent').textContent = navigator.userAgent;
+        document.getElementById('timestamp').textContent = new Date().toISOString();
+
+        // Test functions
+        async function testBackendConnection() {
+            try {
+                console.log('Testing backend connection...');
+                const response = await fetch('http://sales-order-backend-v1-2.azurewebsites.net/', {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Backend connection successful:', data);
+                    return { success: true, data: data };
+                } else {
+                    console.error('Backend responded with status:', response.status);
+                    return { success: false, error: `HTTP ${response.status}` };
+                }
+            } catch (error) {
+                console.error('Backend connection failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function testBackendCORS() {
+            try {
+                console.log('Testing CORS with backend...');
+                const response = await fetch('http://sales-order-backend-v1-2.azurewebsites.net/api/customers', {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('CORS test successful, customers data:', data);
+                    return { success: true, data: data };
+                } else {
+                    console.error('CORS test failed with status:', response.status);
+                    return { success: false, error: `HTTP ${response.status}` };
+                }
+            } catch (error) {
+                console.error('CORS test failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        function testReactEnvironment() {
+            try {
+                console.log('Testing React environment...');
+                const hasReact = typeof React !== 'undefined';
+                const hasReactDOM = typeof ReactDOM !== 'undefined';
+                const rootElement = document.getElementById('root');
+                
+                console.log('React available:', hasReact);
+                console.log('ReactDOM available:', hasReactDOM);
+                console.log('Root element found:', !!rootElement);
+                
+                return {
+                    success: true,
+                    data: {
+                        hasReact,
+                        hasReactDOM,
+                        hasRoot: !!rootElement
+                    }
+                };
+            } catch (error) {
+                console.error('React environment test failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        function addTestResult(testName, result) {
+            const container = document.getElementById('test-results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${result.success ? 'success' : 'error'}`;
+            
+            if (result.success) {
+                resultDiv.innerHTML = `✅ <strong>${testName}:</strong> PASSED`;
+                if (result.data) {
+                    resultDiv.innerHTML += `<br><small>${JSON.stringify(result.data, null, 2)}</small>`;
+                }
+            } else {
+                resultDiv.innerHTML = `❌ <strong>${testName}:</strong> FAILED<br><small>Error: ${result.error}</small>`;
+            }
+            
+            container.appendChild(resultDiv);
+        }
+
+        // Run all tests
+        async function runTests() {
+            console.log('Starting diagnostic tests...');
+            
+            // Test 1: React Environment
+            const reactTest = testReactEnvironment();
+            addTestResult('React Environment', reactTest);
+            
+            // Test 2: Backend Connection
+            const backendTest = await testBackendConnection();
+            addTestResult('Backend Connection', backendTest);
+            
+            // Test 3: CORS Test
+            const corsTest = await testBackendCORS();
+            addTestResult('Backend CORS', corsTest);
+            
+            // Update status
+            const statusDiv = document.getElementById('status');
+            const passedTests = [reactTest, backendTest, corsTest].filter(t => t.success).length;
+            const totalTests = 3;
+            
+            if (passedTests === totalTests) {
+                statusDiv.className = 'test-result success';
+                statusDiv.innerHTML = `✅ All tests passed (${passedTests}/${totalTests})`;
+            } else {
+                statusDiv.className = 'test-result error';
+                statusDiv.innerHTML = `❌ Some tests failed (${passedTests}/${totalTests} passed)`;
+            }
+            
+            console.log(`Diagnostic complete: ${passedTests}/${totalTests} tests passed`);
+        }
+
+        // Start tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runTests, 1000); // Wait a bit for everything to load
+        });
+    </script>
+</body>
+</html>

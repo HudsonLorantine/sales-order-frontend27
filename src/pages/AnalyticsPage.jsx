@@ -32,7 +32,7 @@ import {
 } from 'lucide-react';
 
 // API base URL
-const API_BASE_URL = 'http://sales-order-backend-v1-2.azurewebsites.net/api';
+const API_BASE_URL = 'https://sales-order-backend-v1-2.azurewebsites.net/api';
 
 // Utility function for API calls
 const apiCall = async (endpoint, options = {}) => {
