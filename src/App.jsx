@@ -381,7 +381,7 @@ const Orders = () => {
               Create Order
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
             <CreateOrderForm 
               customers={customers} 
               products={products} 
@@ -962,6 +962,7 @@ const PaymentForm = ({ maxAmount, onSubmit, onCancel }) => {
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [editingCustomer, setEditingCustomer] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -1033,7 +1034,11 @@ const Customers = () => {
                   <TableCell>{customer.email}</TableCell>
                   <TableCell>{customer.phone}</TableCell>
                   <TableCell>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setEditingCustomer(customer)}
+                    >
                       <Edit className="w-4 h-4" />
                     </Button>
                   </TableCell>
@@ -1042,7 +1047,21 @@ const Customers = () => {
             </TableBody>
           </Table>
         </CardContent>
-      </Card>
+        </Card>
+
+      {editingCustomer && (
+        <Dialog open={!!editingCustomer} onOpenChange={() => setEditingCustomer(null)}>
+          <DialogContent className="max-w-2xl">
+            <CustomerForm 
+              customer={editingCustomer}
+              onSuccess={() => {
+                setEditingCustomer(null);
+                fetchCustomers();
+              }} 
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
@@ -1146,6 +1165,7 @@ const CustomerForm = ({ customer, onSuccess }) => {
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -1221,7 +1241,11 @@ const Products = () => {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setEditingProduct(product)}
+                    >
                       <Edit className="w-4 h-4" />
                     </Button>
                   </TableCell>
@@ -1231,6 +1255,20 @@ const Products = () => {
           </Table>
         </CardContent>
       </Card>
+
+      {editingProduct && (
+        <Dialog open={!!editingProduct} onOpenChange={() => setEditingProduct(null)}>
+          <DialogContent className="max-w-2xl">
+            <ProductForm 
+              product={editingProduct}
+              onSuccess={() => {
+                setEditingProduct(null);
+                fetchProducts();
+              }} 
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
