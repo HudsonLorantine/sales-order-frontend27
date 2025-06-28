@@ -42,8 +42,8 @@ import { InventoryPage } from './pages/InventoryPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ReportsPage } from './pages/ReportsPage';
 
-// Update API base URL to deployed backend v1.2 (HTTPS)
-const API_BASE_URL = 'https://sales-order-backend-v1-2.azurewebsites.net/api';
+// Use proxy API endpoint for production
+const API_BASE_URL = '/api';
 
 // Utility function for API calls
 const apiCall = async (endpoint, options = {}) => {
