@@ -381,7 +381,7 @@ const Orders = () => {
               Create Order
             </Button>
           </DialogTrigger>
-        <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto p-4 sm:p-6">
             <CreateOrderForm 
               customers={customers} 
               products={products} 
@@ -419,7 +419,8 @@ const Orders = () => {
 
       <Card>
         <CardContent>
-          <Table>
+          <div className="table-container">
+            <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Order Number</TableHead>
@@ -486,6 +487,7 @@ const Orders = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
         </CardContent>
       </Card>
 
@@ -1016,7 +1018,8 @@ const Customers = () => {
 
       <Card>
         <CardContent>
-          <Table>
+          <div className="table-container">
+            <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Company Name</TableHead>
@@ -1046,8 +1049,9 @@ const Customers = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
         </CardContent>
-        </Card>
+      </Card>
 
       {editingCustomer && (
         <Dialog open={!!editingCustomer} onOpenChange={() => setEditingCustomer(null)}>
@@ -1219,7 +1223,8 @@ const Products = () => {
 
       <Card>
         <CardContent>
-          <Table>
+          <div className="table-container">
+            <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>SKU</TableHead>
@@ -1253,6 +1258,7 @@ const Products = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
         </CardContent>
       </Card>
 
