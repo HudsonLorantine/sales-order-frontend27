@@ -102,10 +102,49 @@ const WarehousesTab = () => {
 
   const fetchWarehouses = async () => {
     try {
-      const data = await apiCall('/inventory/warehouses');
-      setWarehouses(data);
+      // Mock warehouses data since endpoint doesn't exist yet
+      const mockWarehouses = [
+        {
+          id: 1,
+          warehouse_name: 'Main Warehouse',
+          warehouse_code: 'WH-001',
+          warehouse_type: 'Distribution',
+          manager_name: 'John Manager',
+          capacity: 50000,
+          address: '123 Industrial Blvd, City, State 12345',
+          phone: '555-0101',
+          email: 'main@warehouse.com',
+          is_active: true
+        },
+        {
+          id: 2,
+          warehouse_name: 'Secondary Storage',
+          warehouse_code: 'WH-002',
+          warehouse_type: 'Storage',
+          manager_name: 'Jane Smith',
+          capacity: 25000,
+          address: '456 Storage Lane, City, State 12345',
+          phone: '555-0102',
+          email: 'storage@warehouse.com',
+          is_active: true
+        },
+        {
+          id: 3,
+          warehouse_name: 'Overflow Facility',
+          warehouse_code: 'WH-003',
+          warehouse_type: 'Overflow',
+          manager_name: 'Bob Wilson',
+          capacity: 15000,
+          address: '789 Overflow St, City, State 12345',
+          phone: '555-0103',
+          email: 'overflow@warehouse.com',
+          is_active: false
+        }
+      ];
+      setWarehouses(mockWarehouses);
     } catch (error) {
       console.error('Failed to fetch warehouses:', error);
+      setWarehouses([]);
     } finally {
       setLoading(false);
     }

@@ -92,10 +92,24 @@ const InvoicesTab = () => {
 
   const fetchInvoices = async () => {
     try {
-      const data = await apiCall('/financial/invoices');
-      setInvoices(data);
+      // Generate mock invoices from orders data since /financial/invoices endpoint doesn't exist yet
+      const orders = await apiCall('/orders');
+      const mockInvoices = orders.map((order, index) => ({
+        id: order.id,
+        invoice_number: `INV-${new Date(order.order_date).getFullYear()}-${(order.id + 1000).toString().padStart(4, '0')}`,
+        customer: order.customer,
+        invoice_date: order.order_date,
+        due_date: new Date(new Date(order.order_date).getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        status: order.payment_status === 'paid' ? 'paid' : order.status === 'complete' ? 'sent' : 'draft',
+        total_amount: order.total_amount,
+        currency: 'USD',
+        order_id: order.id
+      }));
+      setInvoices(mockInvoices);
     } catch (error) {
       console.error('Failed to fetch invoices:', error);
+      // Fallback to empty array if API fails
+      setInvoices([]);
     } finally {
       setLoading(false);
     }
@@ -187,10 +201,31 @@ const CreditNotesTab = () => {
 
   const fetchCreditNotes = async () => {
     try {
-      const data = await apiCall('/financial/credit-notes');
-      setCreditNotes(data);
+      // Mock credit notes data since endpoint doesn't exist yet
+      const mockCreditNotes = [
+        {
+          id: 1,
+          credit_note_number: 'CN-2025-001',
+          customer: { company_name: 'Acme Corporation' },
+          reason: 'product_return',
+          credit_date: new Date().toISOString(),
+          amount: 150.00,
+          status: 'approved'
+        },
+        {
+          id: 2,
+          credit_note_number: 'CN-2025-002',
+          customer: { company_name: 'Beta Industries' },
+          reason: 'billing_error',
+          credit_date: new Date(Date.now() - 24*60*60*1000).toISOString(),
+          amount: 75.50,
+          status: 'pending'
+        }
+      ];
+      setCreditNotes(mockCreditNotes);
     } catch (error) {
       console.error('Failed to fetch credit notes:', error);
+      setCreditNotes([]);
     } finally {
       setLoading(false);
     }
@@ -266,10 +301,37 @@ const TaxConfigTab = () => {
 
   const fetchTaxConfig = async () => {
     try {
-      const data = await apiCall('/financial/tax-config');
-      setTaxConfigs(data);
+      // Mock tax configuration data since endpoint doesn't exist yet
+      const mockTaxConfigs = [
+        {
+          id: 1,
+          tax_code: 'GST',
+          tax_name: 'Goods and Services Tax',
+          tax_rate: 10.0,
+          applies_to: 'All Products',
+          is_active: true
+        },
+        {
+          id: 2,
+          tax_code: 'VAT',
+          tax_name: 'Value Added Tax',
+          tax_rate: 20.0,
+          applies_to: 'EU Sales',
+          is_active: true
+        },
+        {
+          id: 3,
+          tax_code: 'EXEMPT',
+          tax_name: 'Tax Exempt',
+          tax_rate: 0.0,
+          applies_to: 'Non-Profit',
+          is_active: true
+        }
+      ];
+      setTaxConfigs(mockTaxConfigs);
     } catch (error) {
       console.error('Failed to fetch tax configuration:', error);
+      setTaxConfigs([]);
     } finally {
       setLoading(false);
     }
@@ -345,10 +407,54 @@ const AgingReportTab = () => {
 
   const fetchAgingReport = async () => {
     try {
-      const data = await apiCall('/financial/aging-report');
-      setAgingReport(data);
+      // Mock aging report data since endpoint doesn't exist yet
+      const mockAgingReport = {
+        report_date: new Date().toISOString(),
+        summary: {
+          total_outstanding: 15750.50,
+          current: 8500.00,
+          '30_days': 4200.00,
+          '60_days': 2050.50,
+          '90_days': 750.00,
+          over_90_days: 250.00
+        },
+        customers: [
+          {
+            customer_id: 1,
+            company_name: 'Acme Corporation',
+            total_outstanding: 5200.00,
+            current: 3000.00,
+            '30_days': 1500.00,
+            '60_days': 700.00,
+            '90_days': 0.00,
+            over_90_days: 0.00
+          },
+          {
+            customer_id: 2,
+            company_name: 'Beta Industries',
+            total_outstanding: 3500.50,
+            current: 2000.00,
+            '60_days': 1350.50,
+            '30_days': 150.00,
+            '90_days': 0.00,
+            over_90_days: 0.00
+          },
+          {
+            customer_id: 3,
+            company_name: 'Gamma Corp',
+            total_outstanding: 7050.00,
+            current: 3500.00,
+            '30_days': 2550.00,
+            '60_days': 0.00,
+            '90_days': 750.00,
+            over_90_days: 250.00
+          }
+        ]
+      };
+      setAgingReport(mockAgingReport);
     } catch (error) {
       console.error('Failed to fetch aging report:', error);
+      setAgingReport(null);
     } finally {
       setLoading(false);
     }
