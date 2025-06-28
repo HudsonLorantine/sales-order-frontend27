@@ -24,14 +24,26 @@ import {
   Clock,
   DollarSign,
   TrendingUp,
-  FileText
+  FileText,
+  Warehouse,
+  BarChart3,
+  Receipt,
+  Target,
+  PieChart,
+  AlertTriangle,
+  Building2,
+  TrendingDown
 } from 'lucide-react';
 import './App.css';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { FinancialPage } from './pages/FinancialPage';
+import { InventoryPage } from './pages/InventoryPage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
+import { ReportsPage } from './pages/ReportsPage';
 
-// Update API base URL to deployed backend
-const API_BASE_URL = 'https://sales-order-backend.blueocean-64f72639.eastus.azurecontainerapps.io/api';
+// Update API base URL to deployed backend v1.2
+const API_BASE_URL = 'http://sales-order-backend-v1-2.azurewebsites.net/api';
 
 // Utility function for API calls
 const apiCall = async (endpoint, options = {}) => {
@@ -143,6 +155,10 @@ const Navigation = () => {
     { path: '/orders', label: 'Orders', icon: ShoppingCart },
     { path: '/customers', label: 'Customers', icon: Users },
     { path: '/products', label: 'Products', icon: Package },
+    { path: '/financial', label: 'Financial', icon: CreditCard },
+    { path: '/inventory', label: 'Inventory', icon: Warehouse },
+    { path: '/analytics', label: 'Analytics', icon: BarChart3 },
+    { path: '/reports', label: 'Reports', icon: FileText },
   ];
 
   return (
@@ -1342,6 +1358,10 @@ const MainLayout = () => {
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/financial" element={<FinancialPage />} />
+          <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
         </Routes>
       </main>
     </div>
